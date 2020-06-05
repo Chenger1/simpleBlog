@@ -3,20 +3,14 @@ import tempfile
 
 import pytest
 
-from blog_app import create_app
+from blog_app import create_app, app
 
 
 @pytest.fixture
 def client():
-    """"
-    Create and configure a new app instance for each test.
-    """
     db_fd, dp_path = tempfile.mkstemp()
-    app = create_app({'TESTING':True})
-
-    with app.test_client() as client:
-        yield client
-
+    with app.test_client() as cl:
+        yield cl
     os.close(db_fd)
 
 
