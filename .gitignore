@@ -13,3 +13,4 @@ build/
 *.swp
 *~
 migrations/
+server/blog_app/config.py
