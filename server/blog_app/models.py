@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_user import UserManager, UserMixin
 from sqlalchemy.exc import IntegrityError
 
-from blog_app import app,db
+from blog_app import app, db
 
 
 class User(db.Model, UserMixin):
