@@ -39,7 +39,7 @@ def test_create_post(client):
     user = client.post('/login', data=json.dumps(payload_login))
     resp = client.post('/create_post',
                        data=json.dumps(payload_post),
-                       headers={'Authorization':f'Bearer {user.json["access_token"]}'})
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
 
 
@@ -55,3 +55,15 @@ def test_delete_post_wrong_post_id(client):
     resp = client.post('/delete_post/15',
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'fail'
+
+
+def test_edit_post(client):
+    payload_post = {
+        'title': 'Edited',
+        'body': 'How are you'
+    }
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/edit_post/12',
+                       data=json.dumps(payload_post),
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['status'] == 'success'
