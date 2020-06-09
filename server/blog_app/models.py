@@ -57,7 +57,7 @@ class Post(db.Model):
     body = db.Column(db.Text, nullable=False)
     pub_data = db.Column(db.DateTime, nullable=False,
                          default= datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def __repr__(self):
         return f'Post - {self.title}'
