@@ -5,6 +5,10 @@ import json
 
 from blog_app import create_app, app
 
+payload_login = {
+    'username': 'testing',
+    'password': 'hard_pass'
+}
 
 
 @pytest.fixture
@@ -22,20 +26,12 @@ def test_get(client):
     assert b'Response' in resp.data
 
 
-# def test_auth(client):
-#     payload = {
-#         'username': 'testing',
-#         'password': 'hard_pass'
-#     }
-#     resp = client.post('/login', data=json.dumps(payload))
-#     assert resp.status_code == 200
+def test_auth(client):
+    resp = client.post('/login', data=json.dumps(payload))
+    assert resp.status_code == 200
 
 
-def test_post(client):
-    payload_login = {
-        'username': 'testing',
-        'password': 'hard_pass'
-    }
+def test_create_post(client):
     payload_post = {
         'title': 'Hello',
         'body': 'How are you'
@@ -45,3 +41,17 @@ def test_post(client):
                        data=json.dumps(payload_post),
                        headers={'Authorization':f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
+
+
+def test_delete_post(client):
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/delete_post/11',
+                       headers={'Authorization':f'Bearer {user.json["access_token"]}'})
+    assert resp.json['status'] == 'success'
+
+
+def test_delete_post_wrong_post_id(client):
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/delete_post/15',
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['status'] == 'fail'

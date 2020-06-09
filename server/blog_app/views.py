@@ -1,5 +1,5 @@
 from blog_app import app, auth
-from blog_app.utils import create_post
+from blog_app.utils import create_post, delete_post
 
 import json
 from flask import jsonify, request
@@ -28,3 +28,10 @@ def post():
     resp = create_post(current_user, data)
     return jsonify(status=resp['status']), 200
 
+
+@app.route('/delete_post/<post_id>', methods=['POST'])
+@jwt_required
+def del_post(post_id=None):
+    current_user = get_jwt_identity()
+    resp = delete_post(post_id, current_user)
+    return jsonify(status=resp['status']), 200 #Refactor
