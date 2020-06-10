@@ -64,3 +64,17 @@ def create_comment(post_id, user_id, payload):
     except IntegrityError as e:
         return {'status': 'fail',
                 'message': e}
+
+
+def edit_comment(comment_id, user_id, payload):
+    try:
+        comment = Comments.query.filter_by(id=comment_id).first()
+        if comment.user_id == user_id:
+            if payload['body'] != comment.body: comment.body = payload['body']
+            db.session.add(comment)
+            db.session.commit()
+            db.session.remove()
+            return {'status': 'success'}
+        return {'status': 'fail'}
+    except AttributeError as e:
+        return {'status': 'fail'}
