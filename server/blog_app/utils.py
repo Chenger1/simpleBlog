@@ -94,10 +94,9 @@ def delete_comment(comment_id, user_id):
 
 
 def user_info(user_id):
-    response_object = {}
     try:
         user = User.query.filter_by(id=user_id).first()
-        response_object = {
+        return {
             'id': user.id,
             'username': user.username,
             'email': user.email,
@@ -114,7 +113,6 @@ def user_info(user_id):
                 'pub_data': comment.pub_data
             } for comment in user.comments]
         }
-        return response_object
     except Exception as e:
         return {
             'message': e
