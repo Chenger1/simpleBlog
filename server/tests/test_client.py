@@ -89,3 +89,10 @@ def test_edit_comments(client):
                        data=json.dumps(payload_comment),
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
+
+
+def test_delete_comment(client):
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/delete_comment/3',
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['status'] == 'success'
