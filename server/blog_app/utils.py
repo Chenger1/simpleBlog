@@ -23,6 +23,10 @@ def delete_post(post_id, user_id):
     try:
         post = Post.query.filter_by(id=post_id).first()
         if post.user_id == user_id:
+            post_comments = Comments.__table__.delete().where(
+                Comments.post_id == post_id
+            )
+            db.session.execute(post_comments)
             db.session.delete(post)
             db.session.commit()
             db.session.remove()
