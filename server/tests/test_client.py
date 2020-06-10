@@ -96,3 +96,12 @@ def test_delete_comment(client):
     resp = client.post('/delete_comment/3',
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
+
+
+def test_user_info(client):
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/user_info/35',
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['email'] == 'member@gmail.com'
+    assert resp.json['username'] == 'testing'
+    assert resp.json['posts'][0]['title'] == 'Hello'

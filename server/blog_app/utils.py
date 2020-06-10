@@ -1,5 +1,5 @@
 from blog_app import app, db
-from blog_app.models import Post, Comments
+from blog_app.models import User, Post, Comments
 
 from sqlalchemy.exc import IntegrityError
 
@@ -91,3 +91,31 @@ def delete_comment(comment_id, user_id):
         return {'status': 'fail'}
     except AttributeError as e:
         return {'status': 'fail'}
+
+
+def user_info(user_id):
+    response_object = {}
+    try:
+        user = User.query.filter_by(id=user_id).first()
+        response_object = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'posts': [{
+                'id': post.id,
+                'title': post.title,
+                'body': post.body,
+                'pub_data': post.pub_data
+            } for post in user.posts],
+            'comments': [{
+                'id': comment.id,
+                'body': comment.body,
+                'post_id': comment.post_id,
+                'pub_data': comment.pub_data
+            } for comment in user.comments]
+        }
+        return response_object
+    except Exception as e:
+        return {
+            'message': e
+        }

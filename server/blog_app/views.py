@@ -1,6 +1,7 @@
 from blog_app import app, auth
 from blog_app.utils import (create_post, delete_post, edit_post,
-                            create_comment, edit_comment, delete_comment)
+                            create_comment, edit_comment, delete_comment,
+                            user_info)
 
 import json
 from flask import jsonify, request
@@ -71,3 +72,16 @@ def del_comment(comment_id=None):
     current_user = get_jwt_identity()
     resp = delete_comment(comment_id, current_user)
     return jsonify(status=resp['status']), 200
+
+
+@app.route('/user_info/<user_id>', methods=['POST'])
+@jwt_required
+def us_info(user_id=None):
+    current_user = get_jwt_identity()
+    resp = user_info(user_id)
+    return jsonify(id=resp['id'],
+                   username=resp['username'],
+                   email=resp['email'],
+                   posts=resp['posts'],
+                   comments=resp['comments']
+                   ), 200
