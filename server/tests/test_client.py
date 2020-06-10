@@ -27,13 +27,13 @@ def test_get(client):
 
 
 def test_auth(client):
-    resp = client.post('/login', data=json.dumps(payload))
+    resp = client.post('/login', data=json.dumps(payload_login))
     assert resp.status_code == 200
 
 
 def test_create_post(client):
     payload_post = {
-        'title': 'Hello',
+        'title': 'Tested',
         'body': 'How are you'
     }
     user = client.post('/login', data=json.dumps(payload_login))
@@ -45,7 +45,7 @@ def test_create_post(client):
 
 def test_delete_post(client):
     user = client.post('/login', data=json.dumps(payload_login))
-    resp = client.post('/delete_post/11',
+    resp = client.post('/delete_post/12',
                        headers={'Authorization':f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
 
@@ -63,7 +63,19 @@ def test_edit_post(client):
         'body': 'How are you'
     }
     user = client.post('/login', data=json.dumps(payload_login))
-    resp = client.post('/edit_post/12',
+    resp = client.post('/edit_post/2',
                        data=json.dumps(payload_post),
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
+
+
+def test_comments(client):
+    payload_comment = {
+        'body': 'test comment'
+    }
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/create_comment/16',
+                       data=json.dumps(payload_comment),
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['status'] == 'success'
+

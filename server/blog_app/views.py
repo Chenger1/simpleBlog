@@ -1,5 +1,5 @@
 from blog_app import app, auth
-from blog_app.utils import create_post, delete_post, edit_post
+from blog_app.utils import create_post, delete_post, edit_post, create_comment
 
 import json
 from flask import jsonify, request
@@ -43,4 +43,13 @@ def ed_post(post_id=None):
     current_user = get_jwt_identity()
     data = json.loads(request.data)
     resp = edit_post(post_id, current_user, data)
+    return jsonify(status=resp['status']), 200
+
+
+@app.route('/create_comment/<post_id>', methods=['POST'])
+@jwt_required
+def crt_comment(post_id=None):
+    current_user = get_jwt_identity()
+    data = json.loads(request.data)
+    resp = create_comment(post_id, current_user, data)
     return jsonify(status=resp['status']), 200

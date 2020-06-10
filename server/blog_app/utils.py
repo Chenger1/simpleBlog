@@ -1,5 +1,5 @@
 from blog_app import app, db
-from blog_app.models import Post
+from blog_app.models import Post, Comments
 
 from sqlalchemy.exc import IntegrityError
 
@@ -44,3 +44,19 @@ def edit_post(post_id, user_id, payload):
         return {'status': 'fail'}
     except AttributeError as e:
         return {'status': 'fail'}
+
+
+def create_comment(post_id, user_id, payload):
+    try:
+        comment = Comments(
+            body=payload['body'],
+            user_id=user_id,
+            post_id=post_id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        db.session.remove()
+        return {'status': 'success'}
+    except IntegrityError as e:
+        return {'status': 'fail',
+                'message': e}
