@@ -28,6 +28,7 @@ class Post(db.Model):
     pub_data = db.Column(db.DateTime, nullable=False,
                          default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    author = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
 
     comments = db.relationship('Comments')
 
@@ -42,6 +43,7 @@ class Comments(db.Model):
     pub_data = db.Column(db.DateTime, nullable=False,
                          default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    author = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
 
