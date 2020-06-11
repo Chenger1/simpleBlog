@@ -6,7 +6,7 @@ from blog_app.utils import (create_post, delete_post, edit_post,
 
 import json
 from flask import jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt_claims
 from flask_user import roles_required
 
 
@@ -94,3 +94,16 @@ def us_info(user_id=None):
                    posts=resp['posts'],
                    comments=resp['comments']
                    ), 200
+
+
+@app.route('/admin_page', methods=['POST'])
+@jwt_required
+def admin():
+    current_user = {
+        'current_identity': get_jwt_identity(),
+        'current_roles': get_jwt_claims()
+    }
+    if 'Admin' in current_user['current_roles']['role']:
+        return jsonify(current_user), 200
+    else:
+        return jsonify('Fail'), 200

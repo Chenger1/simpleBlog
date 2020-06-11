@@ -1,5 +1,5 @@
 from blog_app import app, db
-from blog_app.models import User, user_manager
+from blog_app.models import User, Role, user_manager
 
 from flask_jwt_extended import (
     JWTManager, create_access_token,
@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 jwt = JWTManager(app)
 
 
-def registration(payload):
+def registration_user(payload):
     """
     e.orig.pgcode=='23505' -- UniqueViolation Error
     :param payload:
@@ -25,6 +25,7 @@ def registration(payload):
             email=payload['email'],
             password=user_manager.hash_password(payload['password'])
         )
+        user.roles.append(Role(name='Author'))
         db.session.add(user)
         db.session.commit()
         db.session.remove()
@@ -49,3 +50,21 @@ def authenticate(username, password):
             'refresh_token': refresh_token,
         }
     return {'login_status': 'Invalid data'}
+
+
+@jwt.user_claims_loader
+def add_claims_to_access_token(user_id):
+    """
+    Create a function that will be called whenever create_access_token
+    is used. It will take whatever object is passed into the
+    create_access_token method, and lets us define what custom claims
+    should be added to the access token.
+    :param user_id:
+    :return: dict {'username': 'username',
+                   'role': [Role1, Role2]}
+    """
+    user = User.query.filter_by(id=user_id).first()
+    return {
+        'username': user.username,
+        'role': [i.name for i in user.roles]
+    }

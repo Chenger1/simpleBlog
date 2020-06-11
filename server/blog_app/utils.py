@@ -96,6 +96,7 @@ def delete_comment(comment_id, user_id):
 def user_info(user_id):
     try:
         user = User.query.filter_by(id=user_id).first()
+        breakpoint()
         return {
             'id': user.id,
             'username': user.username,

@@ -105,3 +105,14 @@ def test_user_info(client):
     assert resp.json['email'] == 'member@gmail.com'
     assert resp.json['username'] == 'testing'
     assert resp.json['posts'][0]['title'] == 'Hello'
+
+
+def test_admin_page(client):
+    payload_admin = {
+        'username': 'some_admin',
+        'password': 'admin_pass'
+    }
+    user = client.post('/login', data=json.dumps(payload_login))
+    resp = client.post('/admin_page',
+                       headers={'Authorization': f'Bearer {user.json["access_token"]}'})
+    assert resp.json['current_identity'] == 36
