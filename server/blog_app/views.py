@@ -1,4 +1,5 @@
-from blog_app import app, auth
+from blog_app import app
+from blog_app.auth import authenticate, registration_user
 from blog_app.utils import (create_post, delete_post, edit_post,
                             create_comment, edit_comment, delete_comment,
                             user_info)
@@ -6,6 +7,7 @@ from blog_app.utils import (create_post, delete_post, edit_post,
 import json
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_user import roles_required
 
 
 @app.route('/')
@@ -13,12 +15,19 @@ def main():
     return 'Response'
 
 
+@app.route('/registration', methods=['POST'])
+def registration():
+    data = json.loads(request.data)
+    user = registration_user(data)
+    return jsonify(user), 200
+
+
 @app.route('/login', methods=['POST'])
 def login():
     data = json.loads(request.data)
     username = data['username']
     password = data['password']
-    tokens = auth.authenticate(username, password)
+    tokens = authenticate(username, password)
     return jsonify(tokens), 200
 
 

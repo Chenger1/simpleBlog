@@ -19,37 +19,6 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User - {self.username}'
 
-    @staticmethod
-    def registration(payload):
-        """
-        e.orig.pgcode=='23505' -- UniqueViolation Error
-        :param payload:
-        :return:    {
-                        'status': 'success' or 'fail',
-                        'message': 'Some message'
-                    }
-        """
-        try:
-            user = User(
-                username=payload['username'],
-                email=payload['email'],
-                password=user_manager.hash_password(payload['password'])
-            )
-            db.session.add(user)
-            db.session.commit()
-            db.session.remove()
-            responseObject = {
-                'status': 'success',
-                'message': 'You have been registered'
-            }
-            return responseObject
-        except IntegrityError as e:
-            responseObject = {
-                'status': 'fail',
-                'message': 'User already exists' if e.orig.pgcode=='23505' else 'Invalid Data'
-            }
-            return responseObject
-
 
 class Post(db.Model):
     __tablename__ = 'posts'
