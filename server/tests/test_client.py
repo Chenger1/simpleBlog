@@ -23,7 +23,7 @@ def client():
 
 def test_get(client):
     resp = client.get('/')
-    assert b'Response' in resp.data
+    assert 'How are you' in resp.json['resp'][0]['body']
 
 
 def test_auth(client):
@@ -112,7 +112,7 @@ def test_admin_page(client):
         'username': 'some_admin',
         'password': 'admin_pass'
     }
-    user = client.post('/login', data=json.dumps(payload_login))
+    user = client.post('/login', data=json.dumps(payload_admin))
     resp = client.post('/admin_page',
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['current_identity'] == 36

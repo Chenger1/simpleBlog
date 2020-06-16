@@ -1,18 +1,20 @@
 from blog_app import app
 from blog_app.auth import authenticate, registration_user
-from blog_app.utils import (create_post, delete_post, edit_post,
+from blog_app.utils import (main_page,
+                            create_post, delete_post, edit_post,
                             create_comment, edit_comment, delete_comment,
-                            user_info)
+                            user_info
+                            )
 
 import json
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt_claims
-from flask_user import roles_required
 
 
 @app.route('/')
 def main():
-    return 'Response'
+    resp = main_page()
+    return jsonify(resp=resp), 200
 
 
 @app.route('/registration', methods=['POST'])

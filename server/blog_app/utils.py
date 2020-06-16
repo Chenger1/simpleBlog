@@ -4,6 +4,22 @@ from blog_app.models import User, Post, Comments
 from sqlalchemy.exc import IntegrityError
 
 
+def main_page():
+    posts = Post.query.all()
+    return [{'post_id': post.id,
+             'title': post.title,
+             'body': post.body,
+             'author': post.author,
+             'pub_data': post.pub_data,
+             'comments': [{
+                 'id': comment.id,
+                 'body': comment.body,
+                 'pub_data': comment.pub_data,
+                 'author': comment.author
+             } for comment in post.comments]
+             } for post in posts]
+
+
 def create_post(current_user, payload):
     try:
         post = Post(
@@ -96,7 +112,6 @@ def delete_comment(comment_id, user_id):
 def user_info(user_id):
     try:
         user = User.query.filter_by(id=user_id).first()
-        breakpoint()
         return {
             'id': user.id,
             'username': user.username,
@@ -114,7 +129,7 @@ def user_info(user_id):
                 'pub_data': comment.pub_data
             } for comment in user.comments]
         }
-    except Exception as e:
+    except IntegrityError as e:
         return {
             'message': e
         }
