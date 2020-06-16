@@ -21,7 +21,7 @@ def main():
 def registration():
     data = json.loads(request.data)
     user = registration_user(data)
-    return jsonify(user), 200
+    return jsonify(user), 201
 
 
 @app.route('/login', methods=['POST'])
@@ -39,7 +39,7 @@ def crt_post():
     current_user = get_jwt_identity()
     data = json.loads(request.data)
     resp = create_post(current_user, data)
-    return jsonify(status=resp['status']), 200
+    return jsonify(status=resp['status']), 201
 
 
 @app.route('/delete_post/<post_id>', methods=['POST'])
@@ -47,7 +47,7 @@ def crt_post():
 def del_post(post_id=None):
     current_user = get_jwt_identity()
     resp = delete_post(post_id, current_user)
-    return jsonify(status=resp['status']), 200 #Refactor
+    return jsonify(status=resp['status']), 200
 
 
 @app.route('/edit_post/<post_id>', methods=['POST'])
@@ -65,7 +65,7 @@ def crt_comment(post_id=None):
     current_user = get_jwt_identity()
     data = json.loads(request.data)
     resp = create_comment(post_id, current_user, data)
-    return jsonify(status=resp['status']), 200
+    return jsonify(status=resp['status']), 201
 
 
 @app.route('/edit_comment/<comment_id>', methods=['POST'])
@@ -109,3 +109,4 @@ def admin():
         return jsonify(current_user), 200
     else:
         return jsonify('Fail'), 200
+

@@ -38,7 +38,7 @@ def create_post(current_user, payload):
 def delete_post(post_id, user_id):
     try:
         post = Post.query.filter_by(id=post_id).first()
-        if post.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or post.user_id == user_id:
             post_comments = Comments.__table__.delete().where(
                 Comments.post_id == post_id
             )
@@ -54,7 +54,7 @@ def delete_post(post_id, user_id):
 def edit_post(post_id, user_id, payload):
     try:
         post = Post.query.filter_by(id=post_id).first()
-        if post.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or post.user_id == user_id:
             if payload['title'] != post.title: post.title = payload['title']
             if payload['body'] != post.body: post.body = payload['body']
             db.session.add(post)
@@ -85,7 +85,7 @@ def create_comment(post_id, user_id, payload):
 def edit_comment(comment_id, user_id, payload):
     try:
         comment = Comments.query.filter_by(id=comment_id).first()
-        if comment.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or comment.user_id == user_id:
             if payload['body'] != comment.body: comment.body = payload['body']
             db.session.add(comment)
             db.session.commit()
@@ -99,7 +99,7 @@ def edit_comment(comment_id, user_id, payload):
 def delete_comment(comment_id, user_id):
     try:
         comment = Comments.query.filter_by(id=comment_id).first()
-        if comment.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or comment.user_id == user_id:
             db.session.delete(comment)
             db.session.commit()
             db.session.remove()
@@ -133,3 +133,8 @@ def user_info(user_id):
         return {
             'message': e
         }
+
+
+def get_roles(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    return [i.name for i in user.roles]
