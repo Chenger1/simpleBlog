@@ -1,6 +1,5 @@
 from datetime import datetime
 from flask_user import UserManager, UserMixin
-from sqlalchemy.exc import IntegrityError
 
 from blog_app import app, db
 
@@ -27,7 +26,6 @@ class Post(db.Model):
     body = db.Column(db.Text, nullable=False)
     pub_data = db.Column(db.DateTime, nullable=False,
                          default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     author = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
 
     comments = db.relationship('Comments')
@@ -42,8 +40,7 @@ class Comments(db.Model):
     body = db.Column(db.String(80), nullable=False)
     pub_data = db.Column(db.DateTime, nullable=False,
                          default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    author = db.Column(db.String, db.ForeignKey('users.username'), nullable=False)
+    author = db.Column(db.String, db.ForeignKey('users.username') ,nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
 
