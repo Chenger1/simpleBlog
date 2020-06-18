@@ -9,7 +9,9 @@
 export default {
     name: 'my-header',
     data (){
-        sitename: 'simpleBlog'
+        return{
+            sitename: 'simpleBlog'
+        }
     }
 }
 </script>
