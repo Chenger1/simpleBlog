@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './store/store'
+import user from './store/modules/user'
 
 Vue.config.productionTip = false
 
@@ -12,6 +13,16 @@ new Vue({
   el: '#app',
   store,
   router,
+  created(){
+    const userString = JSON.parse(localStorage.getItem('user'));
+    if (userString){
+      this.$store.commit('LOGIN_USER',{
+        username: userString.usename,
+        id: userString.id,
+        token: userString.token
+      });
+    }
+  },
   components: { App },
   template: '<App/>'
 })
