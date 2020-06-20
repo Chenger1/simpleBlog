@@ -8,9 +8,23 @@
                     <p class="card-text">{{post.body}}</p>
                     <h4 class="card-text">{{post.pub_data}}</h4>
                 </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"
+                    v-for="comment in post.comments">
+                        <span>
+                            {{comment.body}} 
+                            <h6>
+                                User - {{comment.author}}.
+                                Data- {{comment.pub_data}}.
+                            </h6>
+                            <button type="submit" 
+                            class="btn btn-light">Delete Comment</button>
+                        </span>
+                    </li>
+                </ul>
                 <div class="card-footer">
                     <button v-on:click="deletePost(post)"
-                    type="submit" class="btn btn-dark">Delete</button>
+                    type="submit" class="btn btn-dark">Delete Post</button>
                 </div>
             </div>
         </div>

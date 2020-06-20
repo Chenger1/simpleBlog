@@ -5,7 +5,14 @@ const state = {
         '1':{
             'title':'title',
             'body':'body',
-            'pub_data': '1'
+            'pub_data': '1',
+            'comments': [
+                {
+                    'author':'User',
+                    'body':'comment',
+                    'pub_data':'21'
+                }
+            ]
         }
     },
 }
@@ -27,8 +34,8 @@ const mutations = {
 
 const actions = {
     GET_POSTS: async(context, payload)=>{
-        let {data} = await axios.get('http://localhost:8000/')
-        context.commit('SET_POSTS_MUT', data)   
+        let {data} = await axios.get('http://127.0.0.1:5000/')
+        context.commit('SET_POSTS_MUT', data['resp'])   
     }
 }
 
