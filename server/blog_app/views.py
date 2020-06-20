@@ -30,7 +30,7 @@ def login():
     username = data['username']
     password = data['password']
     tokens = authenticate(username, password)
-    return jsonify(tokens), 200
+    return jsonify(tokens), 200 if 'access_token' in tokens.keys() else 400
 
 
 @app.route('/create_post', methods=['POST'])
