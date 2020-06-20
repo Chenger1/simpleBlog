@@ -6,7 +6,9 @@ const state ={
 }
 
 const getters = {
-
+    IS_AUTH: (state)=>{
+        return !!state.user
+    }
 }
 
 const mutations ={
