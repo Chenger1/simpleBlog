@@ -32,6 +32,7 @@
     </div> 
 </template>
 <script>
+import { authComputed } from '../store/helper'
 export default {
     name: 'my-header',
     data (){
@@ -47,6 +48,9 @@ export default {
             this.$store.dispatch('LOGOUT_USER')
             this.$router.push({name: 'HomePage'})
         }
+    },
+    computed:{
+        ...authComputed
     }
 }
 </script>
