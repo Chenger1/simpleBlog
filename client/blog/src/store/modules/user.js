@@ -51,6 +51,9 @@ const actions ={
                 context.commit('LOGIN_USER', payloadData)
             }
         })
+    },
+    LOGOUT_USER: ({commit})=>{
+        commit('LOGOUT');
     }
 }
 

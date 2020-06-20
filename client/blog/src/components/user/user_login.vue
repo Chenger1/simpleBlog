@@ -47,7 +47,7 @@ export default {
                 alert('Wrong. Try again')
             } else{
                 this.$store.dispatch('USER_LOGIN', this.user).then(()=>{
-                    console.log('okay')
+                    this.$router.push({name: 'userProfile'})
                 })
             }
         }
