@@ -15,10 +15,13 @@ const mutations ={
             username: payload.username,
             id: payload.id
         }
-        localStorage.setItem('user', JSON.stringify(payload))
         state.token = 'Bearer'+payload.token;
-        console.log(state.user)
-        console.log(payload)
+        localStorage.setItem('user', JSON.stringify(payload));
+    },
+    LOGOUT: (state, payload)=>{
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.reload()
     }
 }
 
@@ -38,7 +41,6 @@ const actions ={
         await axios.post('http://127.0.0.1:5000/login', payload)
         .then((response)=>{
             if(response.status==200){
-                console.log(response)
                 let payloadData = {
                     username: payload.username,
                     id: response.data.id,
