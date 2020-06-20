@@ -25,7 +25,7 @@ def registration_user(payload):
             email=payload['email'],
             password=user_manager.hash_password(payload['password'])
         )
-        user.roles.append(Role(name='Author'))
+        user.roles.append(Role.query.filter_by(name='Author').first())
         db.session.add(user)
         db.session.commit()
         db.session.remove()
