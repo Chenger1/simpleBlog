@@ -25,7 +25,7 @@
                 <div class="nav navbar-nav">
                     <button
                     v-on:click="logout"
-                    class="btn btn=primary">Logout</button>
+                    class="btn btn=primary text">Logout</button>
                 </div>
             </div>
         </h1>
