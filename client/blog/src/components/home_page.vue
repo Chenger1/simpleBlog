@@ -17,12 +17,12 @@
                                 User - <router-link :to="{name:'userProfile', params:{username:comment.author}}">{{comment.author}}</router-link>.
                                 Data- {{comment.pub_data}}.
                             </h6>
-                            <button type="submit" 
+                            <button type="submit" v-if="get_username==comment.author"
                             class="btn btn-light">Delete Comment</button>
                         </span>
                     </li>
                 </ul>
-                <div class="card-footer">
+                <div class="card-footer" v-if="get_username==post.author">
                     <button v-on:click="deletePost(post)"
                     type="submit" class="btn btn-dark">Delete Post</button>
                 </div>
@@ -46,6 +46,9 @@ export default {
     computed: {
         postsList(){
             return this.$store.getters.GET_POSTS_GETTER;
+        },
+        get_username(){
+            return this.$store.getters.GET_USERNAME;
         }
     }
 }

@@ -12,6 +12,11 @@
                          to="/login">Login
                          </router-link>
                     </button>
+                    <button class="btn btn-light">
+                        <router-link
+                        to='/registration'>Registration
+                        </router-link>
+                    </button>
                 </div>
             </div>
             <div v-else>
