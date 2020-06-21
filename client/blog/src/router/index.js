@@ -8,7 +8,7 @@ import createPost from '@/components/post/create_post'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     {
       path: '/',
@@ -33,7 +33,23 @@ export default new Router({
     {
       path: '/createPost',
       name: 'createPost',
-      component: createPost
+      component: createPost,
+      meta: {requiresAuth:true}
     }
   ]
 })
+//NavigationGuard
+router.beforeEach((to, from, next)=>{
+  const loggedIn = localStorage.getItem('user')
+
+  if (to.matched.some(record => record.meta.requiresAuth)){
+    if(!loggedIn){
+      next('/')
+    }else {
+      next()
+    }
+  } else{
+    next()
+  }
+})
+export default router
