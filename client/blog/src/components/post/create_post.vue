@@ -13,8 +13,8 @@
                     <input v-model="post.body" type="text"
                     class="form-control" id="postBody">
                 </div>
-                <button v-on:click="submitPost"
-                type="submit" class="btn btn-dark">Create post</button>
+                <button v-on:click="submitPost" 
+                type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

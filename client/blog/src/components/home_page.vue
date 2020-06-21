@@ -7,6 +7,7 @@
                     <h3 class="card-title">{{post.title}}</h3>
                     <p class="card-text">{{post.body}}</p>
                     <h4 class="card-text">{{post.pub_data}}</h4>
+                    <router-link :to="{name:'userProfile', params:{username:post.author}}">{{post.author}}</router-link>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"

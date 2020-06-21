@@ -38,7 +38,7 @@ def login():
 def crt_post():
     current_user = get_jwt_identity()
     data = json.loads(request.data)
-    resp = create_post(current_user, data)
+    resp = create_post(data)
     return jsonify(status=resp['status']), 201
 
 

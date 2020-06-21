@@ -20,12 +20,12 @@ def main_page():
              } for post in posts]
 
 
-def create_post(current_user, payload):
+def create_post(payload):
     try:
         post = Post(
             title=payload['title'],
             body=payload['body'],
-            user_id=current_user
+            author=payload['user']
         )
         db.session.add(post)
         db.session.commit()
