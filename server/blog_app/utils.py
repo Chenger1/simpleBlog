@@ -109,9 +109,9 @@ def delete_comment(comment_id, user_id):
         return {'status': 'fail'}
 
 
-def user_info(user_id):
+def user_info(username):
     try:
-        user = User.query.filter_by(id=user_id).first()
+        user = User.query.filter_by(username=username).first()
         return {
             'id': user.id,
             'username': user.username,

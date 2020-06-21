@@ -85,11 +85,10 @@ def del_comment(comment_id=None):
     return jsonify(status=resp['status']), 200
 
 
-@app.route('/user_info/<user_id>', methods=['POST'])
-@jwt_required
-def us_info(user_id=None):
+@app.route('/user_info/<username>', methods=['GET'])
+def us_info(username=None):
     current_user = get_jwt_identity()
-    resp = user_info(user_id)
+    resp = user_info(username)
     return jsonify(id=resp['id'],
                    username=resp['username'],
                    email=resp['email'],
