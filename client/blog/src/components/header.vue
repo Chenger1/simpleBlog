@@ -9,7 +9,8 @@
                 <div class="nav navbar-nav navbar-right">
                     <button class="btn btn-light">
                         <router-link
-                         to="/loginuser">Login</router-link>
+                         to="/login">Login
+                         </router-link>
                     </button>
                 </div>
             </div>

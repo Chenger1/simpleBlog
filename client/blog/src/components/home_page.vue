@@ -14,7 +14,7 @@
                         <span>
                             {{comment.body}} 
                             <h6>
-                                User - {{comment.author}}.
+                                User - <router-link :to="{name:'userProfile', params:{username:comment.author}}">{{comment.author}}</router-link>.
                                 Data- {{comment.pub_data}}.
                             </h6>
                             <button type="submit" 
@@ -36,7 +36,7 @@ export default {
     name: 'HomePage',
     data(){
         return {
-            data:null
+            data: null
         }
     },
     components: {myHeader},

@@ -1,12 +1,12 @@
 <template>
     <div>
         <my-header></my-header>
-        <h2>{{user.username}}</h2>
+        <h2>{{user_info.username}} - {{user_info.email}}</h2>
         <div class="container">
             <div class="row">
                 <div class="col">
                     <h4>Posts</h4>
-                    <div class="post" v-for="post in user.posts">
+                    <div class="post" v-for="post in user_info.posts">
                         <div class="card">
                             <div class="body">
                                 <h3 class="card-title">{{post.title}}</h3>
@@ -15,7 +15,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"
-                                v-for="comment in post.comments">
+                                v-for="comment in user_info.comments" v-if="comment.post_id==post.id">
                                     <span>
                                         {{comment.body}} 
                                         <h6>
@@ -25,7 +25,7 @@
                                     </span>
                                 </li>
                             </ul>
-                            <div class="card-footer">
+                            <div class="card-footer" v-if="get_username==user_info.username">
                                 <button v-on:click="deletePost(post)"
                                 type="submit" class="btn btn-dark">Delete Post</button>
                             </div>
@@ -34,10 +34,14 @@
                 </div>
                 <div class="col">
                     <h4>Comments</h4>
-                    <div class="comment" v-for="comment in user.comments">
-                        <div>
+                    <div class="comment" v-for="comment in user_info.comments">
+                        <div class="card">
                             <p>{{comment.body}}</p>
                             <h5>{{comment.pub_data}}</h5>
+                            <div class="card-footer"  v-if="get_username==user_info.username">
+                                <button v-on:click="deletePost(post)"
+                                type="submit" class="btn btn-dark">Delete Comment</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,10 +56,21 @@ export default {
     data() {
         return {
             user: {
-                username: '1'
+                username: this.$route.params.username
             }
         }
     },
-    components: {myHeader}
+    components: {myHeader},
+    created(){
+        this.$store.dispatch('GET_USER_DATA', this.user.username)
+    },
+    computed: {
+        user_info(){
+            return this.$store.getters.GET_USER_INFO;
+        },
+        get_username(){
+            return this.$store.getters.GET_USERNAME;
+        }
+    }
 }
 </script>

@@ -17,7 +17,7 @@ new Vue({
     const userString = JSON.parse(localStorage.getItem('user'));
     if (userString){
       this.$store.commit('LOGIN_USER',{
-        username: userString.usename,
+        username: userString.username,
         id: userString.id,
         token: userString.token
       });
