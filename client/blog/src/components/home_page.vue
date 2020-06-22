@@ -29,6 +29,9 @@
                     <router-link tag="button"
                     class="btn btn-dark"
                     :to="{name: 'editPost', params:{id:post.id}}">Edit Post</router-link>
+                    <router-link tag="button"
+                    class="btn btn-dark"
+                    :to="{name: 'createComment', params:{id:post.id}}">Create comment</router-link>
                 </div>
             </div>
         </div>
@@ -71,6 +74,9 @@ export default {
                     this.$store.dispatch('GET_POSTS')
                 })
             }
+        },
+        createComment(comment){
+            
         }
     },
     computed: {

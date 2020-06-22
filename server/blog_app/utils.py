@@ -66,11 +66,11 @@ def edit_post(post_id, user_id, payload):
         return {'status': 'fail'}
 
 
-def create_comment(post_id, user_id, payload):
+def create_comment(post_id, payload):
     try:
         comment = Comments(
-            body=payload['body'],
-            user_id=user_id,
+            body=payload['comment']['body'],
+            author=payload['username'],
             post_id=post_id
         )
         db.session.add(comment)

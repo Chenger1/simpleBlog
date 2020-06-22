@@ -65,7 +65,7 @@ def ed_post(post_id=None):
 def crt_comment(post_id=None):
     current_user = get_jwt_identity()
     data = json.loads(request.data)
-    resp = create_comment(post_id, current_user, data)
+    resp = create_comment(post_id, data)
     return jsonify(status=resp['status']), 201
 
 
@@ -74,7 +74,7 @@ def crt_comment(post_id=None):
 def ed_comment(comment_id=None):
     current_user = get_jwt_identity()
     data = json.loads(request.data)
-    resp = edit_comment(comment_id, current_user, data)
+    resp = edit_comment(comment_id, data)
     return jsonify(status=resp['status']), 200
 
 

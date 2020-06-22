@@ -64,6 +64,14 @@ const actions = {
     DELETE_POST: async(context, payload)=>{
         await axios.post('http://127.0.0.1:5000/delete_post/'+payload.post.id, payload, {headers:{'Authorization': context.rootState.user.token}})
     },
+    CREATE_COMMENT: async(context, payload)=>{
+        await axios.post('http://127.0.0.1:5000/create_comment/'+payload['comment_id'], payload['payload'], {headers:{'Authorization': context.rootState.user.token}})
+        .then((response)=>{
+            if(response.status == 201){
+                console.log(response)
+            }
+        })
+    },
     DELETE_COMMENT: async(context, payload)=>{
         await axios.post('http://127.0.0.1:5000/delete_comment/'+payload.comment.id, payload, {headers:{'Authorization': context.rootState.user.token}})
     }

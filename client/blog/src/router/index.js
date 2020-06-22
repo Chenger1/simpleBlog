@@ -6,6 +6,7 @@ import userLogin from '@/components/user/user_login'
 import userProfile from '@/components/user/userProfile'
 import createPost from '@/components/post/create_post'
 import editPost from '@/components/post/edit_post'
+import createComment from '@/components/comments/create_comment'
 
 Vue.use(Router)
 
@@ -42,6 +43,12 @@ const router =  new Router({
       name: 'editPost',
       component: editPost,
       meta: {requiresAuth:true}
+    },
+    {
+      path: '/createComment',
+      name: 'createComment',
+      component: createComment,
+      meta: {requiresAuth: true}
     }
   ]
 })
