@@ -69,12 +69,12 @@ def crt_comment(post_id=None):
     return jsonify(status=resp['status']), 201
 
 
-@app.route('/edit_comment/<comment_id>', methods=['POST'])
+@app.route('/edit_comment/<comment_id>', methods=['PATCH'])
 @jwt_required
 def ed_comment(comment_id=None):
     current_user = get_jwt_identity()
     data = json.loads(request.data)
-    resp = edit_comment(comment_id, data)
+    resp = edit_comment(comment_id,current_user, data)
     return jsonify(status=resp['status']), 200
 
 

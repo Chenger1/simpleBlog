@@ -24,7 +24,7 @@ const getters = {
     GET_POST_DATA: (state)=>(id)=>{
         let post_index = state.posts.findIndex(post=>post.id==id);
         return state.posts[post_index]
-    }
+    },
 }
 
 const mutations = {
@@ -71,6 +71,10 @@ const actions = {
                 console.log(response)
             }
         })
+    },
+    EDIT_COMMENT: async(context, payload)=>{
+        payload['username'] = context.rootState.user.local_user_info.username;
+        await axios.patch('http://127.0.0.1:5000/edit_comment/'+payload.id, payload, {headers:{'Authorization': context.rootState.user.token}})
     },
     DELETE_COMMENT: async(context, payload)=>{
         await axios.post('http://127.0.0.1:5000/delete_comment/'+payload.comment.id, payload, {headers:{'Authorization': context.rootState.user.token}})

@@ -20,6 +20,9 @@
                             </h6>
                             <button v-on:click="deleteComment(comment)" type="submit" v-if="get_username==comment.author"
                             class="btn btn-light">Delete Comment</button>
+                            <router-link v-if="get_username==comment.author" tag="button"
+                            class="btn btn-dark"
+                            :to="{name: 'editComment', params:{post_id:post.id, comment_id:comment.id, body:comment.body}}">Edit comment</router-link>
                         </span>
                     </li>
                 </ul>

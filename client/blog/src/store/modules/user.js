@@ -31,7 +31,6 @@ const mutations ={
             is_login: true
         }
         state.token = 'Bearer '+payload.token;
-        console.log(payload)
         localStorage.setItem('user', JSON.stringify(payload));
     },
     LOGOUT: (state, payload)=>{
