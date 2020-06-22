@@ -5,6 +5,7 @@ import userRegistration from '@/components/user/regist_form'
 import userLogin from '@/components/user/user_login'
 import userProfile from '@/components/user/userProfile'
 import createPost from '@/components/post/create_post'
+import editPost from '@/components/post/edit_post'
 
 Vue.use(Router)
 
@@ -34,6 +35,12 @@ const router =  new Router({
       path: '/createPost',
       name: 'createPost',
       component: createPost,
+      meta: {requiresAuth:true}
+    },
+    {
+      path: '/editPost',
+      name: 'editPost',
+      component: editPost,
       meta: {requiresAuth:true}
     }
   ]

@@ -46,11 +46,12 @@ def crt_post():
 @jwt_required
 def del_post(post_id=None):
     current_user = get_jwt_identity()
-    resp = delete_post(post_id, current_user)
+    data = json.loads(request.data)
+    resp = delete_post(post_id, current_user, data['username'])
     return jsonify(status=resp['status']), 200
 
 
-@app.route('/edit_post/<post_id>', methods=['POST'])
+@app.route('/edit_post/<post_id>', methods=['PATCH'])
 @jwt_required
 def ed_post(post_id=None):
     current_user = get_jwt_identity()

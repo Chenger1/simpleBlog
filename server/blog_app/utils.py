@@ -35,10 +35,10 @@ def create_post(payload):
         return {'status': 'fail', 'message': e}
 
 
-def delete_post(post_id, user_id):
+def delete_post(post_id, user_id, payload):
     try:
         post = Post.query.filter_by(id=post_id).first()
-        if 'Admin' in get_roles(user_id) or post.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or post.author == payload:
             post_comments = Comments.__table__.delete().where(
                 Comments.post_id == post_id
             )
@@ -54,7 +54,7 @@ def delete_post(post_id, user_id):
 def edit_post(post_id, user_id, payload):
     try:
         post = Post.query.filter_by(id=post_id).first()
-        if 'Admin' in get_roles(user_id) or post.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or post.author == payload['author']:
             if payload['title'] != post.title: post.title = payload['title']
             if payload['body'] != post.body: post.body = payload['body']
             db.session.add(post)

@@ -21,6 +21,10 @@ const getters = {
     GET_POSTS_GETTER: (state)=>{
         return state.posts
     },
+    GET_POST_DATA: (state)=>(id)=>{
+        let post_index = state.posts.findIndex(post=>post.post_id==id);
+        return state.posts[post_index]
+    }
 }
 
 const mutations = {
@@ -29,6 +33,11 @@ const mutations = {
     },
     ADD_POST: (state, payload) =>{
         state.posts.push(payload);
+    },
+    EDIT_POST_MUTATION: (state, payload)=>{
+        let post_index = state.posts.findIndex(post=>post.post_id==payload.post_id);
+        state.posts[post_index]['title'] = payload.title;
+        state.posts[post_index]['body'] = payload.body; 
     }
 }
 
@@ -46,6 +55,15 @@ const actions = {
             }
         })
     },
+    EDIT_POST: async(context, payload)=>{
+        await axios.patch('http://127.0.0.1:5000/edit_post/'+payload.post_id, payload, {headers:{'Authorization': context.rootState.user.token}})
+        .then((response)=>{
+            context.commit('EDIT_POST_MUTATION', payload)
+        })
+    },
+    DELETE_POST: async(context, payload)=>{
+        await axios.post('http://127.0.0.1:5000/delete_post/'+payload.post.post_id, payload, {headers:{'Authorization': context.rootState.user.token}})
+    }
 }
 
 
