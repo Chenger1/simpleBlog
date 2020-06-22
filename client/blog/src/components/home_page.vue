@@ -18,7 +18,7 @@
                                 User - <router-link :to="{name:'userProfile', params:{username:comment.author}}">{{comment.author}}</router-link>.
                                 Data- {{comment.pub_data}}.
                             </h6>
-                            <button type="submit" v-if="get_username==comment.author"
+                            <button v-on:click="deleteComment(comment)" type="submit" v-if="get_username==comment.author"
                             class="btn btn-light">Delete Comment</button>
                         </span>
                     </li>
@@ -59,6 +59,18 @@ export default {
                 this.$store.dispatch('GET_POSTS')
                 })
             };
+        },
+        deleteComment(comment){
+            if(this.get_username==comment.author){
+                let payload = {
+                    'comment': comment,
+                    'username': this.get_username
+                }
+                this.$store.dispatch('DELETE_COMMENT', payload)
+                .then(response=>{
+                    this.$store.dispatch('GET_POSTS')
+                })
+            }
         }
     },
     computed: {

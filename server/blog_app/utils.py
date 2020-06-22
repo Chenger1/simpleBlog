@@ -85,7 +85,7 @@ def create_comment(post_id, user_id, payload):
 def edit_comment(comment_id, user_id, payload):
     try:
         comment = Comments.query.filter_by(id=comment_id).first()
-        if 'Admin' in get_roles(user_id) or comment.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or comment.author == payload['username']:
             if payload['body'] != comment.body: comment.body = payload['body']
             db.session.add(comment)
             db.session.commit()
@@ -96,10 +96,10 @@ def edit_comment(comment_id, user_id, payload):
         return {'status': 'fail'}
 
 
-def delete_comment(comment_id, user_id):
+def delete_comment(comment_id, user_id, data):
     try:
         comment = Comments.query.filter_by(id=comment_id).first()
-        if 'Admin' in get_roles(user_id) or comment.user_id == user_id:
+        if 'Admin' in get_roles(user_id) or comment.author == data:
             db.session.delete(comment)
             db.session.commit()
             db.session.remove()

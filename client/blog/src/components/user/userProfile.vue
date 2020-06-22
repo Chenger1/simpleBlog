@@ -79,6 +79,18 @@ export default {
                 this.$store.dispatch('GET_USER_DATA', this.get_username)
                 })
             };
+        },
+        deleteComment(comment){
+            if(this.get_username==this.user_info.username){
+                let payload = {
+                    'comment': comment,
+                    'username': this.get_username
+                }
+                this.$store.dispatch('DELETE_COMMENT', payload)
+                .then(response=>{
+                    this.$store.dispatch('GET_USER_DATA', this.get_username)
+                })
+            }
         }
     },
     computed: {

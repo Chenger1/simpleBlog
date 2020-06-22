@@ -62,8 +62,10 @@ const actions = {
         })
     },
     DELETE_POST: async(context, payload)=>{
-        console.log(payload)
         await axios.post('http://127.0.0.1:5000/delete_post/'+payload.post.id, payload, {headers:{'Authorization': context.rootState.user.token}})
+    },
+    DELETE_COMMENT: async(context, payload)=>{
+        await axios.post('http://127.0.0.1:5000/delete_comment/'+payload.comment.id, payload, {headers:{'Authorization': context.rootState.user.token}})
     }
 }
 

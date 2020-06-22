@@ -82,7 +82,8 @@ def ed_comment(comment_id=None):
 @jwt_required
 def del_comment(comment_id=None):
     current_user = get_jwt_identity()
-    resp = delete_comment(comment_id, current_user)
+    data = json.loads(request.data)
+    resp = delete_comment(comment_id, current_user, data['username'])
     return jsonify(status=resp['status']), 200
 
 
