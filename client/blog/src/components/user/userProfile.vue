@@ -28,6 +28,9 @@
                             <div class="card-footer" v-if="get_username==user_info.username">
                                 <button v-on:click="deletePost(post)"
                                 type="submit" class="btn btn-dark">Delete Post</button>
+                                <router-link tag="button"
+                                class="btn btn-dark"
+                                :to="{name: 'editPost', params:{id:post.id}}">Edit Post</router-link>
                             </div>
                          </div>
                     </div>
@@ -39,7 +42,7 @@
                             <p>{{comment.body}}</p>
                             <h5>{{comment.pub_data}}</h5>
                             <div class="card-footer"  v-if="get_username==user_info.username">
-                                <button v-on:click="deletePost(post)"
+                                <button v-on:click="deleteComment(comment)"
                                 type="submit" class="btn btn-dark">Delete Comment</button>
                             </div>
                         </div>
@@ -63,6 +66,20 @@ export default {
     components: {myHeader},
     created(){
         this.$store.dispatch('GET_USER_DATA', this.user.username)
+    },
+    methods:{
+        deletePost(post){
+        if(this.get_username==this.user_info.username){
+            let payload = {
+                'post':post,
+                'username': this.get_username
+            }
+            this.$store.dispatch('DELETE_POST', payload)
+            .then(response=>{
+                this.$store.dispatch('GET_USER_DATA', this.get_username)
+                })
+            };
+        }
     },
     computed: {
         user_info(){

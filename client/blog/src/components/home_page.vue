@@ -28,7 +28,7 @@
                     type="submit" class="btn btn-dark">Delete Post</button>
                     <router-link tag="button"
                     class="btn btn-dark"
-                    :to="{name: 'editPost', params:{id:post.post_id}}">Edit Post</router-link>
+                    :to="{name: 'editPost', params:{id:post.id}}">Edit Post</router-link>
                 </div>
             </div>
         </div>

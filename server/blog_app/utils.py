@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 def main_page():
     posts = Post.query.all()
-    return [{'post_id': post.id,
+    return [{'id': post.id,
              'title': post.title,
              'body': post.body,
              'author': post.author,
