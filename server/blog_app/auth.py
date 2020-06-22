@@ -49,6 +49,7 @@ def authenticate(username, password):
             'id': user.id,
             'access_token': access_token,
             'refresh_token': refresh_token,
+            'roles': [i.name for i in user.roles]
         }
     return {'login_status': 'Invalid data'}
 
