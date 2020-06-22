@@ -15,7 +15,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"
-                                v-for="comment in user_info.comments" v-if="comment.post_id==post.id">
+                                v-for="comment in user_info.comments" v-if="comment.post_id==post.id || get_user_roles.indexOf('Admin')!=-1">
                                     <span>
                                         {{comment.body}} 
                                         <h6>
@@ -25,7 +25,7 @@
                                     </span>
                                 </li>
                             </ul>
-                            <div class="card-footer" v-if="get_username==user_info.username">
+                            <div class="card-footer" v-if="get_username==user_info.username || get_user_roles.indexOf('Admin')!=-1">
                                 <button v-on:click="deletePost(post)"
                                 type="submit" class="btn btn-dark">Delete Post</button>
                                 <router-link tag="button"
@@ -41,7 +41,7 @@
                         <div class="card">
                             <p>{{comment.body}}</p>
                             <h5>{{comment.pub_data}}</h5>
-                            <div class="card-footer"  v-if="get_username==user_info.username">
+                            <div class="card-footer"  v-if="get_username==user_info.username || 'Admin ' in get_user_roles">
                                 <button v-on:click="deleteComment(comment)"
                                 type="submit" class="btn btn-dark">Delete Comment</button>
                             </div>
@@ -69,26 +69,26 @@ export default {
     },
     methods:{
         deletePost(post){
-        if(this.get_username==this.user_info.username){
+        if(this.get_username==this.user_info.username || this.get_user_roles.indexOf('Admin')!=-1){
             let payload = {
                 'post':post,
                 'username': this.get_username
             }
             this.$store.dispatch('DELETE_POST', payload)
             .then(response=>{
-                this.$store.dispatch('GET_USER_DATA', this.get_username)
+                this.$store.dispatch('GET_USER_DATA', this.user_info.username)
                 })
             };
         },
         deleteComment(comment){
-            if(this.get_username==this.user_info.username){
+            if(this.get_username==this.user_info.username || this.get_user_roles.indexOf('Admin')!=-1){
                 let payload = {
                     'comment': comment,
                     'username': this.get_username
                 }
                 this.$store.dispatch('DELETE_COMMENT', payload)
                 .then(response=>{
-                    this.$store.dispatch('GET_USER_DATA', this.get_username)
+                    this.$store.dispatch('GET_USER_DATA', this.user_info.username)
                 })
             }
         }
@@ -99,6 +99,9 @@ export default {
         },
         get_username(){
             return this.$store.getters.GET_USERNAME;
+        },
+        get_user_roles(){
+            return this.$store.getters.GET_USER_ROLE;
         }
     }
 }

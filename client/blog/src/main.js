@@ -19,7 +19,8 @@ new Vue({
       this.$store.commit('LOGIN_USER',{
         username: userString.username,
         id: userString.id,
-        token: userString.token
+        token: userString.token,
+        roles: userString.roles
       });
     }
   },
