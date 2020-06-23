@@ -77,9 +77,6 @@ export default {
                     this.$store.dispatch('GET_POSTS')
                 })
             }
-        },
-        createComment(comment){
-            
         }
     },
     computed: {
