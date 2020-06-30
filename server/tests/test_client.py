@@ -127,3 +127,8 @@ def test_admin_privileges(client):
     resp = client.post('/delete_comment/4',
                        headers={'Authorization': f'Bearer {user.json["access_token"]}'})
     assert resp.json['status'] == 'success'
+
+
+def test_helper_page(client):
+    resp = client.get('/')
+    assert 'Message' in resp.json.keys()
