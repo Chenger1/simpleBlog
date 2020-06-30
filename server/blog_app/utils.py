@@ -138,3 +138,14 @@ def user_info(username):
 def get_roles(user_id):
     user = User.query.filter_by(id=user_id).first()
     return [i.name for i in user.roles]
+
+
+def comment_filter(data):
+    comments = Comments.query.filter_by(username=data)
+    resp = {
+        'id': comment.id,
+        'body': comment.body
+    for comment in comments}
+    
+
+
