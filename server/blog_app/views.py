@@ -111,3 +111,10 @@ def admin():
     else:
         return jsonify('Fail'), 200
 
+
+@app.route('/helper_page', methods=['GET'])
+def helper_page():
+    helper = {
+        'Message': 'This app created as "pet" project using Flask and Vue.js'
+    }
+    return jsonify(helper=helper), 200
